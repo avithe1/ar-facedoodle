@@ -49,7 +49,7 @@ async function init(video) {
   raycaster = new THREE.Raycaster()
 
   // addDebugMesh()
-  await addFBXMesh()
+  //await addFBXMesh()
 
   return renderer.domElement
 }
