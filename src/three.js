@@ -100,7 +100,7 @@ function update(facemesh) {
 }
 
 function addVideoSprite(video) {
-  videoTexture = new THREE.Texture(video)
+  videoTexture = new THREE.VideoTexture(video)
   videoTexture.minFilter = THREE.LinearFilter
   const videoSprite = new THREE.Sprite(
     new THREE.MeshBasicMaterial({
