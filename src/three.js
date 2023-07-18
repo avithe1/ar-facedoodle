@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OBJLoader } from './vendor/OBJLoader'
 import simplify from 'simplify-js'
+//import ThreeMeshUI from 'three-mesh-ui';
 
 let camera
 let scene
@@ -9,6 +10,7 @@ let videoTexture
 let baseMesh
 let raycaster
 let currPlane
+let cube
 
 const planes = []
 const planeWidth = 1024
@@ -48,8 +50,10 @@ async function init(video) {
   // Init Raycaster.
   raycaster = new THREE.Raycaster()
 
-  // addDebugMesh()
+  //addDebugMesh()
   //await addFBXMesh()
+
+  //makeTextPanel();
 
   return renderer.domElement
 }
@@ -97,6 +101,9 @@ function update(facemesh) {
 
   // Render.
   renderer.render(scene, camera)
+
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
 }
 
 function addVideoSprite(video) {
@@ -115,6 +122,17 @@ function addVideoSprite(video) {
   videoSprite.position.copy(camera.position)
   videoSprite.position.z = 0
   scene.add(videoSprite)
+
+
+  cube = new THREE.Mesh();
+  const geometry = new THREE.BoxGeometry(100,100,100);
+  const material = new THREE.MeshStandardMaterial();
+  cube.geometry = geometry;
+  cube.material = material;
+  cube.position.x = -110;
+  cube.position.y = -200;
+  cube.position.z = 5;
+  scene.add(cube);
 }
 
 function addFBXMesh() {
@@ -317,6 +335,40 @@ function createDrawingPlane(position, face, uv) {
   }
 
   return plane
+}
+
+
+function makeTextPanel(scene) {
+
+  const container = new ThreeMeshUI.Block({
+    width: 1.3,
+    height: 0.5,
+    padding: 0.05,
+    justifyContent: 'center',
+    textAlign: 'left',
+    fontFamily: FontJSON,
+    fontTexture: FontImage,
+    // interLine: 0,
+  });
+
+  container.position.set(0, 1, -1.8);
+  container.rotation.x = -0.55;
+  scene.add(container);
+
+  //
+
+  container.add(
+    new ThreeMeshUI.Text({
+      // content: 'This library supports line-break-friendly-characters,',
+      content: 'This library supports line break friendly characters',
+      fontSize: 0.055
+    }),
+
+    new ThreeMeshUI.Text({
+      content: ' As well as multi font size lines with consistent vertical spacing',
+      fontSize: 0.08
+    })
+  );
 }
 
 export default {
